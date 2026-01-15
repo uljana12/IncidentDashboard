@@ -133,7 +133,6 @@ export function useUpdateIncident() {
     },
     // Rollback on error
     onError: (_err, _variables, context) => {
-       // TODO: add error logging/reporting
       if (context?.previousIncidents) {
         queryClient.setQueryData(INCIDENTS_KEY, context.previousIncidents);
       }

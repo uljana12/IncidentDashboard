@@ -139,7 +139,7 @@ export function IncidentList({ onSelectIncident }: IncidentListProps) {
   };
 
   /** Handles keyboard navigation on rows (Enter/Space to select, Arrow keys to navigate) */
-  const handleRowKeyDown = (e: React.KeyboardEvent, incident: Incident, index: number) => {
+  const handleRowKeyDown = (e: React.KeyboardEvent, incident: Incident) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       onSelectIncident(incident);

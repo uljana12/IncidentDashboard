@@ -20,7 +20,7 @@ describe("formatters", () => {
   });
 
   describe("formatDateTime", () => {
-    it("formats  date string with time", () => {
+    it("formats date string with time", () => {
       const result = formatDateTime("2026-01-15T10:30:00Z");
       // Result depends on timezone, so we check the format
       expect(result).toMatch(/15 Jan 2026/);

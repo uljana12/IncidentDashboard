@@ -5,9 +5,6 @@
 
 /**
  * Formats a date string to a short date format.
- * 
- * @param dateString - date string 
- * @returns Formatted date string 
  */
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -20,9 +17,6 @@ export function formatDate(dateString: string): string {
 
 /**
  * Formats a date string to include both date and time.
- * 
- * @param dateString - date string 
- * @returns Formatted date and time string 
  */
 export function formatDateTime(dateString: string): string {
   const date = new Date(dateString);

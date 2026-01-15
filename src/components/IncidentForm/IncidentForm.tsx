@@ -3,7 +3,7 @@
  * Includes client-side validation and error handling.
  */
 
-import { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent } from "react";
 import { useUsers, useCreateIncident } from "../../hooks";
 import { Button, Input, Textarea, Select } from "../common";
 import { SEVERITY_OPTIONS_WITH_PLACEHOLDER } from "../../utils/constants";

@@ -2,7 +2,7 @@
 
 A React + TypeScript incident management dashboard built for the Danske Bank frontend coding challenge. The application allows teams to track, create, and manage incidents with filtering, sorting, and status updates.
 
-![Desktop View](./screenshots/desktop-view.png)
+<img src="./screenshots/desktop-view.png" alt="Desktop View" />
 
 ## Table of Contents
 
@@ -239,7 +239,7 @@ src/
 
 ### Desktop View
 
-<img src="./screenshots/desktop-view.png" alt="Desktop View" width="800" />
+<img src="./screenshots/desktop-view.png" alt="Desktop View" />
 
 *Main dashboard showing incident list with filters, sorting, and status badges. The table displays all incidents with their severity, status, assignee, and creation date.*
 
