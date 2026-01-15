@@ -81,10 +81,11 @@
 
   .filters {
     width: 100%;
+    flex-direction: column;
   }
 
   .filterSelect {
-    flex: 1;
-    min-width: 0;
+    width: 100%;
+    min-width: 100%;
   }
 }

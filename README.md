@@ -261,7 +261,6 @@ src/
 
 *Viewing incident details with status history timeline. Edit mode allows changing status and assignee.*
 
-> **Note**: If screenshots are not included, run the app locally with `npm run dev` to see the UI.
 
 ---
 

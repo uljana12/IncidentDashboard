@@ -138,11 +138,19 @@ export function IncidentList({ onSelectIncident }: IncidentListProps) {
     onSelectIncident(incident);
   };
 
-  /** Handles keyboard navigation on rows (Enter/Space to select) */
-  const handleRowKeyDown = (e: React.KeyboardEvent, incident: Incident) => {
+  /** Handles keyboard navigation on rows (Enter/Space to select, Arrow keys to navigate) */
+  const handleRowKeyDown = (e: React.KeyboardEvent, incident: Incident, index: number) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       onSelectIncident(incident);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const nextRow = e.currentTarget.nextElementSibling as HTMLElement | null;
+      nextRow?.focus();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prevRow = e.currentTarget.previousElementSibling as HTMLElement | null;
+      prevRow?.focus();
     }
   };
 
@@ -230,11 +238,11 @@ export function IncidentList({ onSelectIncident }: IncidentListProps) {
               </tr>
             </thead>
             <tbody>
-              {filteredAndSortedIncidents.map((incident) => (
+              {filteredAndSortedIncidents.map((incident, index) => (
                 <tr
                   key={incident.id}
                   onClick={() => handleRowClick(incident)}
-                  onKeyDown={(e) => handleRowKeyDown(e, incident)}
+                  onKeyDown={(e) => handleRowKeyDown(e, incident, index)}
                   tabIndex={0}
                   role="row"
                   aria-label={`Incident: ${incident.title}`}

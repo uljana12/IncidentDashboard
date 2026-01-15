@@ -50,8 +50,13 @@
 }
 
 .table tbody tr:focus {
-  outline: 2px solid #003755;
-  outline-offset: -2px;
+  outline: none;
+  background-color: #e8f4fc;
+}
+
+.table tbody tr:focus-visible {
+  outline: none;
+  background-color: #e8f4fc;
 }
 
 .title {
