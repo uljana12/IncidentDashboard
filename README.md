@@ -239,25 +239,25 @@ src/
 
 ### Desktop View
 
-![Desktop View](./screenshots/desktop-view.png)
+<img src="./screenshots/desktop-view.png" alt="Desktop View" width="800" />
 
 *Main dashboard showing incident list with filters, sorting, and status badges. The table displays all incidents with their severity, status, assignee, and creation date.*
 
 ### Mobile/Tablet View
 
-![Mobile View](./screenshots/mobile-view.png)
+<img src="./screenshots/mobile-view.png" alt="Mobile View" width="300" />
 
 *Responsive design on smaller screens. The filter bar stacks vertically and the table becomes scrollable horizontally with data labels for each cell.*
 
 ### Create Incident Modal
 
-![Create Modal](./screenshots/create-modal.png)
+<img src="./screenshots/create-modal.png" alt="Create Modal" width="400" />
 
 *Form for creating new incidents with validation. Required fields show error messages when empty.*
 
 ### Incident Detail Modal
 
-![Detail Modal](./screenshots/detail-modal.png)
+<img src="./screenshots/detail-modal.png" alt="Detail Modal" width="500" />
 
 *Viewing incident details with status history timeline. Edit mode allows changing status and assignee.*
 
