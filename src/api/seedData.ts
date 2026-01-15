@@ -1,5 +1,15 @@
+/**
+ * Default seed data for incidents and users.
+ * This data is used to initialize the application on first load
+ * and when resetting the database via POST /api/reset.
+ */
+
 import type { Incident, User } from "./types";
 
+/**
+ * Default users available in the system.
+ * Used for assignee selection in incident forms.
+ */
 export const defaultUsers: User[] = [
   { id: "user-1", name: "Alice Johnson", email: "alice@example.com" },
   { id: "user-2", name: "Bob Smith", email: "bob@example.com" },
@@ -7,6 +17,10 @@ export const defaultUsers: User[] = [
   { id: "user-4", name: "David Brown", email: "david@example.com" },
 ];
 
+/**
+ * Default incidents seeded on first load.
+ * Provides a variety of statuses, severities, and states for demonstration.
+ */
 export const defaultIncidents: Incident[] = [
   {
     id: "inc-1",
@@ -51,14 +65,14 @@ export const defaultIncidents: Incident[] = [
   },
   {
     id: "inc-3",
-    title: "Login page CSS broken on mobile",
+    title: "Email notifications delayed",
     description:
-      "The login button is not visible on mobile devices due to a CSS issue.",
+      "Transactional emails are being delayed by up to 30 minutes.",
     status: "Resolved",
     severity: "Medium",
     assigneeId: "user-3",
     createdAt: "2026-01-05T08:00:00Z",
-    updatedAt: "2026-01-06T11:30:00Z",
+    updatedAt: "2026-01-06T16:45:00Z",
     statusHistory: [
       {
         status: "Open",
@@ -67,30 +81,53 @@ export const defaultIncidents: Incident[] = [
       },
       {
         status: "In Progress",
-        changedAt: "2026-01-05T10:00:00Z",
+        changedAt: "2026-01-05T10:30:00Z",
         changedBy: "user-3",
       },
       {
         status: "Resolved",
-        changedAt: "2026-01-06T11:30:00Z",
+        changedAt: "2026-01-06T16:45:00Z",
         changedBy: "user-3",
       },
     ],
   },
   {
     id: "inc-4",
-    title: "Email notifications delayed",
+    title: "Dashboard loading slowly",
     description:
-      "Order confirmation emails are being sent with a 2-hour delay.",
+      "The main dashboard takes over 10 seconds to load for some users.",
     status: "Open",
     severity: "Low",
     assigneeId: null,
-    createdAt: "2026-01-09T07:00:00Z",
-    updatedAt: "2026-01-09T07:00:00Z",
+    createdAt: "2026-01-09T11:00:00Z",
+    updatedAt: "2026-01-09T11:00:00Z",
     statusHistory: [
       {
         status: "Open",
-        changedAt: "2026-01-09T07:00:00Z",
+        changedAt: "2026-01-09T11:00:00Z",
+        changedBy: "user-4",
+      },
+    ],
+  },
+  {
+    id: "inc-5",
+    title: "Mobile app crash on login",
+    description:
+      "iOS users report the app crashes when attempting to log in with biometrics.",
+    status: "In Progress",
+    severity: "High",
+    assigneeId: "user-4",
+    createdAt: "2026-01-08T15:30:00Z",
+    updatedAt: "2026-01-09T09:00:00Z",
+    statusHistory: [
+      {
+        status: "Open",
+        changedAt: "2026-01-08T15:30:00Z",
+        changedBy: "user-1",
+      },
+      {
+        status: "In Progress",
+        changedAt: "2026-01-09T09:00:00Z",
         changedBy: "user-4",
       },
     ],

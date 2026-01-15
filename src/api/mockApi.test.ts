@@ -139,18 +139,33 @@ describe("Mock API", () => {
     });
   });
 
-  describe("POST /api/reset", () => {
+ describe("POST /api/reset", () => {
     it("resets data to defaults", async () => {
-      // Delete an incident
-      await fetch("/api/incidents/inc-1", { method: "DELETE" });
+      // Create a new incident to modify state
+      const createResponse = await fetch("/api/incidents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: "Temp Incident",
+          description: "Will be removed",
+          severity: "Low",
+        }),
+      });
+      const created: Incident = await createResponse.json();
+      const createdId: string = created.id;
+      expect(createResponse.status).toBe(201);
 
-      // Reset
+      // Verify the incident was created
+      const verifyCreate = await fetch("/api/incidents/" + createdId);
+      expect(verifyCreate.status).toBe(200);
+
+      // Reset via API
       const response = await fetch("/api/reset", { method: "POST" });
       expect(response.status).toBe(200);
 
-      // Verify incident is back
-      const getResponse = await fetch("/api/incidents/inc-1");
-      expect(getResponse.status).toBe(200);
+      // The created incident should no longer exist
+      const verifyGone = await fetch("/api/incidents/" + createdId);
+      expect(verifyGone.status).toBe(404);
     });
   });
 

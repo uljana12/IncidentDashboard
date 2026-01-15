@@ -1,0 +1,46 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 12px;
+  text-transform: capitalize;
+}
+
+/* Status colors */
+.open {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.inProgress {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.resolved {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* Severity colors */
+.low {
+  background-color: #f5f5f5;
+  color: #616161;
+}
+
+.medium {
+  background-color: #fff8e1;
+  color: #f9a825;
+}
+
+.high {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.critical {
+  background-color: #ffebee;
+  color: #c62828;
+}

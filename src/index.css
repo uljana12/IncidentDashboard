@@ -1,4 +1,11 @@
 :root {
+  /* Danske Bank inspired color palette */
+  --color-primary: #003755;
+  --color-secondary: #00a3e0;
+  --color-text: #213547;
+  --color-border: #e0e0e0;
+  --color-background: #ffffff;
+
   font-family:
     system-ui,
     -apple-system,
@@ -8,8 +15,8 @@
     sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #213547;
-  background-color: #ffffff;
+  color: var(--color-text);
+  background-color: var(--color-background);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -30,5 +37,11 @@ body {
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 1.5rem;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
 }

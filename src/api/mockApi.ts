@@ -1,3 +1,13 @@
+/**
+ * Mock API implementation that intercepts fetch requests.
+ * 
+ * Provides a RESTful API simulation with:
+ * - CRUD operations for incidents
+ * - User listing
+ * - Simulated network delay (disabled in tests)
+ * - Data persistence via storage module
+ */
+
 import type {
   Incident,
   CreateIncidentInput,
@@ -5,18 +15,36 @@ import type {
 } from "./types";
 import { getIncidents, setIncidents, getUsers, resetData } from "./storage";
 
-// Simulated network delay (ms) - set to 0 in test environment
+/** 
+ * Simulated network delay in milliseconds.
+ * Set to 0 in test environment for faster tests.
+ */
 const SIMULATED_DELAY =
   typeof process !== "undefined" && process.env?.NODE_ENV === "test" ? 0 : 300;
 
+/**
+ * Creates a promise that resolves after the specified delay.
+ * @param ms - Milliseconds to delay
+ */
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/**
+ * Generates a unique incident ID.
+ * Format: inc-{timestamp}-{random}
+ * @returns Unique incident ID string
+ */
 function generateId(): string {
   return `inc-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 }
 
+/**
+ * Creates a JSON Response object.
+ * @param data - Data to serialize as JSON body
+ * @param status - HTTP status code (default: 200)
+ * @returns Response object with JSON content-type
+ */
 function jsonResponse<T>(data: T, status = 200): Response {
   return new Response(JSON.stringify(data), {
     status,
@@ -24,6 +52,12 @@ function jsonResponse<T>(data: T, status = 200): Response {
   });
 }
 
+/**
+ * Creates an error Response object.
+ * @param message - Error message
+ * @param status - HTTP status code (default: 400)
+ * @returns Response object with error JSON
+ */
 function errorResponse(message: string, status = 400): Response {
   return new Response(JSON.stringify({ error: message }), {
     status,
@@ -31,19 +65,25 @@ function errorResponse(message: string, status = 400): Response {
   });
 }
 
+/** Function signature for route handlers */
 type RouteHandler = (
   params: Record<string, string>,
   request: Request,
 ) => Promise<Response>;
 
+/** Route definition with HTTP method, URL pattern, and handler */
 interface Route {
   method: string;
   pattern: RegExp;
   handler: RouteHandler;
 }
 
+/**
+ * Route definitions for the mock API.
+ * Each route matches a method + URL pattern and calls the appropriate handler.
+ */
 const routes: Route[] = [
-  // GET /api/incidents
+  // GET /api/incidents - List all incidents
   {
     method: "GET",
     pattern: /^\/api\/incidents$/,
@@ -53,7 +93,7 @@ const routes: Route[] = [
     },
   },
 
-  // GET /api/incidents/:id
+  // GET /api/incidents/:id - Get incident by ID
   {
     method: "GET",
     pattern: /^\/api\/incidents\/([^/]+)$/,
@@ -68,7 +108,7 @@ const routes: Route[] = [
     },
   },
 
-  // POST /api/incidents
+  // POST /api/incidents - Create new incident
   {
     method: "POST",
     pattern: /^\/api\/incidents$/,
@@ -76,6 +116,7 @@ const routes: Route[] = [
       await delay(SIMULATED_DELAY);
       const input: CreateIncidentInput = await request.json();
 
+      // Validation
       if (!input.title?.trim()) {
         return errorResponse("Title is required", 400);
       }
@@ -110,7 +151,7 @@ const routes: Route[] = [
     },
   },
 
-  // PATCH /api/incidents/:id
+  // PATCH /api/incidents/:id - Update incident
   {
     method: "PATCH",
     pattern: /^\/api\/incidents\/([^/]+)$/,
@@ -154,7 +195,7 @@ const routes: Route[] = [
     },
   },
 
-  // DELETE /api/incidents/:id
+  // DELETE /api/incidents/:id - Delete incident
   {
     method: "DELETE",
     pattern: /^\/api\/incidents\/([^/]+)$/,
@@ -174,7 +215,7 @@ const routes: Route[] = [
     },
   },
 
-  // GET /api/users
+  // GET /api/users - List all users
   {
     method: "GET",
     pattern: /^\/api\/users$/,
@@ -196,16 +237,22 @@ const routes: Route[] = [
   },
 ];
 
+/**
+ * Matches a request against defined routes.
+ * @param method - HTTP method
+ * @param pathname - URL pathname
+ * @returns Matched route and extracted params, or null if no match
+ */
 function matchRoute(
   method: string,
-  pathname: string,
+  pathname: string
 ): { route: Route; params: Record<string, string> } | null {
   for (const route of routes) {
     if (route.method !== method) continue;
 
     const match = pathname.match(route.pattern);
     if (match) {
-      // Extract named params (for now, just 'id' from capture group)
+      // Extract named params from regex groups
       const params: Record<string, string> = {};
       if (match[1]) {
         params.id = match[1];
@@ -216,77 +263,60 @@ function matchRoute(
   return null;
 }
 
-async function handleMockRequest(request: Request): Promise<Response | null> {
-  const url = new URL(request.url);
-
-  // Only intercept /api/* requests
-  if (!url.pathname.startsWith("/api/")) {
-    return null;
-  }
-
-  const matched = matchRoute(request.method, url.pathname);
-
-  if (!matched) {
-    return errorResponse(
-      `No route found for ${request.method} ${url.pathname}`,
-      404,
-    );
-  }
-
-  try {
-    return await matched.route.handler(matched.params, request);
-  } catch (error) {
-    console.error("Mock API error:", error);
-    return errorResponse("Internal server error", 500);
-  }
-}
-
-// Store the original fetch
-const originalFetch = globalThis.fetch?.bind(globalThis);
-
-// Mock fetch that intercepts /api/* requests
-async function mockFetch(
-  input: RequestInfo | URL,
-  init?: RequestInit,
-): Promise<Response> {
-  // Handle relative URLs by adding a base URL (needed for Node.js/test environments)
-  let url: string;
-  if (typeof input === "string") {
-    url = input.startsWith("/") ? `http://localhost${input}` : input;
-  } else if (input instanceof URL) {
-    url = input.href;
-  } else {
-    url = input.url;
-  }
-
-  const request = new Request(url, init);
-  const mockResponse = await handleMockRequest(request);
-
-  if (mockResponse) {
-    return mockResponse;
-  }
-
-  // Pass through to original fetch for non-API requests
-  if (originalFetch) {
-    return originalFetch(input, init);
-  }
-  throw new Error("No fetch implementation available");
-}
+/** Store for the original fetch function */
+let originalFetch: typeof fetch | null = null;
 
 /**
- * Initialize the mock API by replacing global fetch
+ * Initializes the mock API by intercepting global fetch.
+ * Requests to /api/* are handled by the mock, others pass through.
  */
 export function initMockApi(): void {
-  globalThis.fetch = mockFetch;
-  console.log("🔧 Mock API initialized - intercepting /api/* requests");
+  if (originalFetch) {
+    // Already initialized
+    return;
+  }
+
+  originalFetch = globalThis.fetch;
+
+  globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+    // Get the URL string from input
+    let urlString: string;
+    if (typeof input === "string") {
+      urlString = input;
+    } else if (input instanceof URL) {
+      urlString = input.href;
+    } else {
+      // input is Request
+      urlString = input.url;
+    }
+
+    // Parse URL with base to handle relative URLs
+    const url = new URL(urlString, "http://localhost");
+
+    // Only intercept /api/* requests
+    if (!url.pathname.startsWith("/api/")) {
+      return originalFetch!(input, init);
+    }
+
+    // Create request for handler (with full URL to avoid jsdom issues)
+    const request = new Request(url.href, init);
+
+    const matched = matchRoute(request.method, url.pathname);
+    if (matched) {
+      return matched.route.handler(matched.params, request);
+    }
+
+    return errorResponse("Not found", 404);
+  };
 }
 
 /**
- * Restore the original fetch (useful for testing)
+ * Removes the mock API and restores original fetch.
+ * Useful for cleanup in tests.
  */
 export function teardownMockApi(): void {
   if (originalFetch) {
     globalThis.fetch = originalFetch;
+    originalFetch = null;
   }
-  console.log("🔧 Mock API torn down - original fetch restored");
 }

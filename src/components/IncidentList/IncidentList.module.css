@@ -1,0 +1,171 @@
+.container {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.table th,
+.table td {
+  padding: 0.875rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #003755;
+  white-space: nowrap;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  background-color: #e8e8e8;
+}
+
+.sortIcon {
+  margin-left: 0.5rem;
+  opacity: 0.5;
+}
+
+.sortIcon.active {
+  opacity: 1;
+}
+
+.table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f5f8fa;
+}
+
+.table tbody tr:focus {
+  outline: 2px solid #003755;
+  outline-offset: -2px;
+}
+
+.title {
+  font-weight: 500;
+  color: #003755;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assignee {
+  color: #666;
+}
+
+.unassigned {
+  color: #999;
+  font-style: italic;
+}
+
+.date {
+  color: #666;
+  white-space: nowrap;
+}
+
+.badges {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loading,
+.error,
+.empty {
+  padding: 3rem;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: #666;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.retryButton {
+  margin-top: 1rem;
+}
+
+.empty {
+  color: #666;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* Mobile card view */
+@media (max-width: 768px) {
+  .table,
+  .table thead,
+  .table tbody,
+  .table th,
+  .table td,
+  .table tr {
+    display: block;
+  }
+
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .table tbody tr {
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #fff;
+  }
+
+  .table td {
+    padding: 0.5rem 0;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #003755;
+    margin-right: 1rem;
+  }
+
+  .title {
+    max-width: none;
+    white-space: normal;
+  }
+
+  .badges {
+    justify-content: flex-end;
+  }
+}

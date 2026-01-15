@@ -1,0 +1,50 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:focus-visible {
+  outline: 2px solid #003755;
+  outline-offset: 2px;
+}
+
+/* Variants */
+.primary {
+  background-color: #003755;
+  color: white;
+}
+
+.primary:hover:not(:disabled) {
+  background-color: #00294a;
+}
+
+.secondary {
+  background-color: #f5f5f5;
+  color: #003755;
+  border: 1px solid #ddd;
+}
+
+.secondary:hover:not(:disabled) {
+  background-color: #e8e8e8;
+}
+
+/* Size - large only (used by Spinner) */
+.large {
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+}
