@@ -64,7 +64,7 @@ export function IncidentList({ onSelectIncident }: IncidentListProps) {
     if (!incidents) return [];
 
     // Apply filters
-    let filtered = incidents.filter((incident) => {
+    const filtered = incidents.filter((incident) => {
       if (
         filters.search &&
         !incident.title.toLowerCase().includes(filters.search.toLowerCase())
