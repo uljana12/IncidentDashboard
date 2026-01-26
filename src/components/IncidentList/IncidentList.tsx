@@ -238,11 +238,11 @@ export function IncidentList({ onSelectIncident }: IncidentListProps) {
               </tr>
             </thead>
             <tbody>
-              {filteredAndSortedIncidents.map((incident, index) => (
+              {filteredAndSortedIncidents.map((incident) => (
                 <tr
                   key={incident.id}
                   onClick={() => handleRowClick(incident)}
-                  onKeyDown={(e) => handleRowKeyDown(e, incident, index)}
+                  onKeyDown={(e) => handleRowKeyDown(e, incident)}
                   tabIndex={0}
                   role="row"
                   aria-label={`Incident: ${incident.title}`}
