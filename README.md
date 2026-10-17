@@ -1,6 +1,6 @@
 # Team Incident Dashboard
 
-A React + TypeScript incident management dashboard built for the Danske Bank frontend coding challenge. The application allows teams to track, create, and manage incidents with filtering, sorting, and status updates.
+A React + TypeScript incident management dashboard. The application allows teams to track, create, and manage incidents with filtering, sorting, and status updates.
 
 <img src="./screenshots/desktop-view.png" alt="Desktop View" />
 
